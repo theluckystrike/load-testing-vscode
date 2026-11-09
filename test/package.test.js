@@ -90,3 +90,9 @@ test('the vsix keeps only what is needed', () => {
   for (const keep of ['!dist/extension.js', '!dist/worker.js', '!media/**', '!schemas/**', '!icon.png', '!README.md']) assert.ok(ig.includes(keep), keep);
   assert.ok(!ig.includes('!test'));
 });
+
+test('rating: a run where every request failed does not count as a success (VER15)', () => {
+  const src = read('src/extension.js');
+  assert.match(src, /result\.summary\.requests > 0 && result\.summary\.failed < result\.summary\.requests\) rating\.success\(this\.uri\)/);
+  assert.equal((src.match(/rating\.success\(/g) || []).length, 1);
+});

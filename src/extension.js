@@ -161,7 +161,9 @@ class Run {
     try { ({ jsonPath, htmlPath } = await saveRun(this.uri, result)); } catch (e) { vscode.window.showWarningMessage(`The report could not be saved: ${e.message}`); }
     this.result = result; this.jsonPath = jsonPath; this.htmlPath = htmlPath;
     this.post({ type: 'done', runId: this.id, result, jsonPath, htmlPath });
-    if (result.summary.requests > 0) rating.success(this.uri);
+    // A run counts for the rating ask only when at least one request got through; a run where every request
+    // failed (server down, refused, all timeouts) never asks.
+    if (result.summary.requests > 0 && result.summary.failed < result.summary.requests) rating.success(this.uri);
     updateStatus();
     if (!this.quiet && this.panel && this.panel.disposed) {
       const msg = result.thresholds.length ? `${result.name}: ${result.pass ? 'passed' : 'FAILED'} (${result.thresholds.filter((t) => !t.pass).map((t) => t.text).join(', ') || 'all thresholds met'}).` : `${result.name} finished: ${result.summary.requests} requests.`;
