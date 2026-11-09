@@ -1,0 +1,375 @@
+{
+  "name": "zovo-load-testing",
+  "displayName": "Load Testing & HTTP Load Tests for APIs (Performance Testing, Reports)",
+  "description": "Free load testing for HTTP APIs inside VS Code, with no account, no cloud and nothing to install. Write a small YAML test or import .http, cURL, HAR, OpenAPI or JMeter. Watch requests per second and p50/p95/p99 latency live, set pass/fail thresholds, save HTML reports and compare runs.",
+  "version": "0.1.0",
+  "publisher": "zovo",
+  "license": "MIT",
+  "icon": "icon.png",
+  "galleryBanner": {
+    "color": "#1B1F2E",
+    "theme": "dark"
+  },
+  "engines": {
+    "vscode": "^1.90.0",
+    "node": ">=18"
+  },
+  "categories": [
+    "Testing",
+    "Other"
+  ],
+  "keywords": [
+    "load testing",
+    "load test",
+    "performance testing",
+    "stress testing",
+    "api load test",
+    "http load test",
+    "benchmark",
+    "jmeter",
+    "k6 alternative",
+    "locust alternative",
+    "rest client",
+    "http",
+    "api testing",
+    "latency",
+    "p95",
+    "p99",
+    "requests per second",
+    "rps",
+    "throughput",
+    "har",
+    "curl",
+    "openapi",
+    "swagger",
+    "thresholds",
+    "offline"
+  ],
+  "main": "./dist/extension.js",
+  "activationEvents": [
+    "workspaceContains:**/*.load.yaml",
+    "workspaceContains:**/*.load.yml",
+    "workspaceContains:**/*.load.json"
+  ],
+  "capabilities": {
+    "untrustedWorkspaces": {
+      "supported": false,
+      "description": "A load test sends network traffic, so it runs only in trusted workspaces."
+    },
+    "virtualWorkspaces": false
+  },
+  "contributes": {
+    "commands": [
+      {
+        "command": "loadTesting.run",
+        "title": "Run Load Test",
+        "category": "Load Testing",
+        "icon": "$(play)"
+      },
+      {
+        "command": "loadTesting.stop",
+        "title": "Stop Load Test",
+        "category": "Load Testing",
+        "icon": "$(debug-stop)"
+      },
+      {
+        "command": "loadTesting.newTest",
+        "title": "New Load Test",
+        "category": "Load Testing"
+      },
+      {
+        "command": "loadTesting.tryDemo",
+        "title": "Try It on a Demo Server",
+        "category": "Load Testing"
+      },
+      {
+        "command": "loadTesting.importFile",
+        "title": "Create Load Test from File (.http, HAR, OpenAPI, JMeter)",
+        "category": "Load Testing"
+      },
+      {
+        "command": "loadTesting.importCurl",
+        "title": "Create Load Test from cURL",
+        "category": "Load Testing"
+      },
+      {
+        "command": "loadTesting.openReport",
+        "title": "Open Saved Report",
+        "category": "Load Testing"
+      },
+      {
+        "command": "loadTesting.compareRuns",
+        "title": "Compare Two Runs",
+        "category": "Load Testing"
+      },
+      {
+        "command": "loadTesting.showHistory",
+        "title": "Show Run History",
+        "category": "Load Testing"
+      },
+      {
+        "command": "loadTesting.scheduleRuns",
+        "title": "Run on a Schedule",
+        "category": "Load Testing"
+      },
+      {
+        "command": "loadTesting.forgetHosts",
+        "title": "Forget Confirmed Hosts",
+        "category": "Load Testing"
+      },
+      {
+        "command": "loadTesting.openWalkthrough",
+        "title": "Get Started",
+        "category": "Load Testing"
+      },
+      {
+        "command": "loadTesting.supportDeveloper",
+        "title": "Support the developer",
+        "category": "Load Testing"
+      },
+      {
+        "command": "loadTesting.moreViewers",
+        "title": "More free tools",
+        "category": "Load Testing"
+      },
+      {
+        "command": "loadTesting.unlockWithSponsors",
+        "title": "Unlock Zovo Pro with GitHub Sponsors",
+        "category": "Load Testing"
+      },
+      {
+        "command": "loadTesting.getPro",
+        "title": "Get Zovo Pro (USD 15 once, all Zovo extensions)",
+        "category": "Load Testing"
+      },
+      {
+        "command": "loadTesting.enterLicenseKey",
+        "title": "Enter Zovo Pro license key",
+        "category": "Load Testing"
+      },
+      {
+        "command": "loadTesting.removeLicense",
+        "title": "Remove Zovo Pro license from this editor",
+        "category": "Load Testing"
+      }
+    ],
+    "menus": {
+      "editor/title": [
+        {
+          "command": "loadTesting.run",
+          "when": "resourceFilename =~ /\\\\.load\\\\.(ya?ml|json)$/i && !loadTesting.running",
+          "group": "navigation@1"
+        },
+        {
+          "command": "loadTesting.stop",
+          "when": "resourceFilename =~ /\\\\.load\\\\.(ya?ml|json)$/i && loadTesting.running",
+          "group": "navigation@1"
+        }
+      ],
+      "explorer/context": [
+        {
+          "command": "loadTesting.run",
+          "when": "resourceFilename =~ /\\\\.load\\\\.(ya?ml|json)$/i",
+          "group": "navigation@8"
+        },
+        {
+          "command": "loadTesting.importFile",
+          "when": "resourceExtname =~ /^\\.(http|rest|har|jmx)$/i || resourceFilename =~ /(openapi|swagger)[^/]*\\.(ya?ml|json)$/i",
+          "group": "navigation@9"
+        }
+      ],
+      "editor/context": [
+        {
+          "command": "loadTesting.importCurl",
+          "when": "editorHasSelection",
+          "group": "9_cutcopypaste@9"
+        },
+        {
+          "command": "loadTesting.importFile",
+          "when": "resourceExtname =~ /^\\.(http|rest)$/i",
+          "group": "navigation@9"
+        }
+      ],
+      "commandPalette": [
+        {
+          "command": "loadTesting.stop",
+          "when": "loadTesting.running"
+        },
+        {
+          "command": "loadTesting.unlockWithSponsors",
+          "when": "loadTesting.proEnabled"
+        },
+        {
+          "command": "loadTesting.getPro",
+          "when": "loadTesting.proEnabled"
+        },
+        {
+          "command": "loadTesting.enterLicenseKey",
+          "when": "loadTesting.proEnabled"
+        },
+        {
+          "command": "loadTesting.removeLicense",
+          "when": "loadTesting.proEnabled"
+        }
+      ]
+    },
+    "jsonValidation": [
+      {
+        "fileMatch": "*.load.json",
+        "url": "./schemas/load-test.schema.json"
+      }
+    ],
+    "yamlValidation": [
+      {
+        "fileMatch": [
+          "*.load.yaml",
+          "*.load.yml"
+        ],
+        "url": "./schemas/load-test.schema.json"
+      }
+    ],
+    "configuration": {
+      "title": "Load Testing",
+      "properties": {
+        "loadTesting.maxVirtualUsers": {
+          "type": "integer",
+          "default": 200,
+          "minimum": 1,
+          "maximum": 5000,
+          "description": "Hard limit on virtual users (and on requests in flight in the open model). A test that asks for more does not start."
+        },
+        "loadTesting.maxRequestsPerSecond": {
+          "type": "integer",
+          "default": 5000,
+          "minimum": 1,
+          "maximum": 50000,
+          "description": "Hard limit on the rate of an open-model test (rate: in the phases)."
+        },
+        "loadTesting.maxDurationMinutes": {
+          "type": "integer",
+          "default": 60,
+          "minimum": 1,
+          "maximum": 1440,
+          "description": "Longest test that may start, in minutes."
+        },
+        "loadTesting.blockedHosts": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": [
+            "*.gov",
+            "*.mil"
+          ],
+          "markdownDescription": "Hosts that never receive load, even when a test names them. `example.com` blocks that host, `*.example.com` blocks it and its subdomains, `host:8443` blocks one port."
+        },
+        "loadTesting.saveResults": {
+          "type": "boolean",
+          "default": true,
+          "description": "Save each run as JSON and an HTML report in a folder next to the test file."
+        },
+        "loadTesting.resultsFolder": {
+          "type": "string",
+          "default": "load-test-results",
+          "description": "Name of the folder (next to the test file) where runs are saved."
+        },
+        "loadTesting.maxImportMB": {
+          "type": "number",
+          "default": 200,
+          "minimum": 1,
+          "maximum": 2048,
+          "description": "Largest HAR, OpenAPI, JMeter or .http file that is imported. The file is read in a background thread."
+        },
+        "loadTesting.maxDataFileMB": {
+          "type": "number",
+          "default": 100,
+          "minimum": 1,
+          "maximum": 2048,
+          "description": "Largest CSV data file a test may use. At most 1,000,000 rows are used."
+        },
+        "loadTesting.askForRating": {
+          "type": "boolean",
+          "default": true,
+          "description": "Ask for a Marketplace rating after 2 runs without an error, in 2 sessions at least 4 hours apart. \"Later\" asks once more after 7 days, \"No thanks\" never asks again. Never after an error. Nothing is sent anywhere."
+        },
+        "loadTesting.showSupportLinks": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show the small Rate, More free tools and Sponsor links at the bottom of the dashboard. Nothing is sent anywhere."
+        }
+      }
+    },
+    "walkthroughs": [
+      {
+        "id": "loadTesting.start",
+        "title": "Get started with Load Testing",
+        "description": "Load test an HTTP API from VS Code: no account, nothing to install.",
+        "steps": [
+          {
+            "id": "demo",
+            "title": "Try it on a demo server",
+            "description": "Start a small JSON API on your own computer and run a 23-second test against it. You see the live dashboard and the report.\n[Try the Demo](command:loadTesting.tryDemo)",
+            "media": {
+              "image": "images/dashboard-dark.png",
+              "altText": "The live dashboard with requests per second, p50/p95/p99 latency and passed thresholds."
+            },
+            "completionEvents": [
+              "onCommand:loadTesting.tryDemo"
+            ]
+          },
+          {
+            "id": "write",
+            "title": "Write or import a test",
+            "description": "Create a .load.yaml file, or turn a .http file, a cURL command, a HAR recording, an OpenAPI document or a JMeter plan into a test.\n[New Load Test](command:loadTesting.newTest)\n[Import a File](command:loadTesting.importFile)",
+            "media": {
+              "markdown": "walkthrough/write.md"
+            },
+            "completionEvents": [
+              "onCommand:loadTesting.newTest",
+              "onCommand:loadTesting.importFile"
+            ]
+          },
+          {
+            "id": "thresholds",
+            "title": "Pass or fail with thresholds",
+            "description": "Rules like p95 < 300ms and errors < 1% turn a run into pass or fail. Every run is saved as JSON and an HTML report.",
+            "media": {
+              "markdown": "walkthrough/thresholds.md"
+            }
+          },
+          {
+            "id": "compare",
+            "title": "Compare runs and set limits",
+            "description": "Compare two runs side by side, and set the user limit and the host blocklist.\n[Compare Two Runs](command:loadTesting.compareRuns)\n[Open Settings](command:workbench.action.openSettings?%5B%22loadTesting%22%5D)",
+            "media": {
+              "markdown": "walkthrough/compare.md"
+            },
+            "completionEvents": [
+              "onCommand:workbench.action.openSettings"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "scripts": {
+    "build": "node scripts/build.js --production",
+    "test": "node scripts/build.js --production && node --test --test-concurrency=1 test/*.test.js",
+    "package": "npm run build && npx -y @vscode/vsce package --no-dependencies -o dist/"
+  },
+  "devDependencies": {
+    "esbuild": "0.28.2",
+    "@types/vscode": "~1.90.0"
+  },
+  "homepage": "https://github.com/theluckystrike/load-testing-vscode#readme",
+  "bugs": {
+    "url": "https://github.com/theluckystrike/load-testing-vscode/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/theluckystrike/load-testing-vscode"
+  },
+  "sponsor": {
+    "url": "https://github.com/sponsors/theluckystrike"
+  }
+}

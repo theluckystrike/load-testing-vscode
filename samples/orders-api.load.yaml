@@ -1,0 +1,19 @@
+# Sample load test. Change target to your own API, then use "Run load test" above.
+name: Orders API
+target: http://localhost:3000
+request:
+  method: GET
+  url: /api/orders?limit=20
+  headers:
+    accept: application/json
+checks:
+  status: 200
+  maxLatency: 500ms
+phases:
+  - { name: ramp-up, duration: 10s, vus: [1, 20] }
+  - { name: steady, duration: 30s, vus: 20 }
+  - { name: ramp-down, duration: 5s, vus: [20, 0] }
+thinkTime: [50ms, 150ms]
+thresholds:
+  - p95 < 300ms
+  - errors < 1%

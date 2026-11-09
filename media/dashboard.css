@@ -1,0 +1,48 @@
+/* Dashboard styles. Colors come from the VS Code theme, so dark, light and high contrast all work. */
+body { margin: 0; padding: 14px 18px 48px; color: var(--vscode-foreground); background: var(--vscode-editor-background); font-family: var(--vscode-font-family); font-size: var(--vscode-font-size); }
+.loading { color: var(--vscode-descriptionForeground); }
+.top { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+h1 { font-size: 18px; margin: 0 0 2px; font-weight: 600; }
+h2 { font-size: 12px; text-transform: uppercase; letter-spacing: .04em; color: var(--vscode-descriptionForeground); margin: 16px 0 6px; font-weight: 600; }
+h3 { font-size: 12px; font-weight: 600; margin: 0 0 4px; display: flex; justify-content: space-between; gap: 8px; }
+.sub { color: var(--vscode-descriptionForeground); font-size: 12px; }
+.actions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+button { font: inherit; border: 1px solid var(--vscode-button-border, transparent); border-radius: 2px; padding: 4px 12px; cursor: pointer; color: var(--vscode-button-foreground); background: var(--vscode-button-background); }
+button:hover { background: var(--vscode-button-hoverBackground); }
+button.secondary { color: var(--vscode-button-secondaryForeground); background: var(--vscode-button-secondaryBackground); }
+button.secondary:hover { background: var(--vscode-button-secondaryHoverBackground); }
+button.danger { background: var(--vscode-statusBarItem-errorBackground, #c72e0f); color: var(--vscode-statusBarItem-errorForeground, #fff); }
+button:disabled { opacity: .5; cursor: default; }
+button:focus-visible { outline: 1px solid var(--vscode-focusBorder); outline-offset: 2px; }
+.pill { font-size: 12px; padding: 2px 10px; border-radius: 10px; border: 1px solid var(--vscode-panel-border, rgba(128,128,128,.4)); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.pill.run { color: var(--vscode-charts-blue); border-color: var(--vscode-charts-blue); }
+.pill.ok { color: var(--vscode-testing-iconPassed, var(--vscode-charts-green)); border-color: currentColor; font-weight: 600; }
+.pill.bad { color: var(--vscode-testing-iconFailed, var(--vscode-charts-red)); border-color: currentColor; font-weight: 600; }
+.progress { height: 3px; background: var(--vscode-editorWidget-border, rgba(128,128,128,.2)); margin: 10px 0 12px; border-radius: 2px; overflow: hidden; }
+.progress div { height: 100%; width: 0; background: var(--vscode-progressBar-background, var(--vscode-charts-blue)); transition: width .4s linear; }
+.warning { border-left: 3px solid var(--vscode-editorWarning-foreground, #cca700); background: var(--vscode-inputValidation-warningBackground, rgba(204,167,0,.1)); padding: 6px 10px; margin: 0 0 8px; font-size: 12px; }
+.tiles { display: grid; grid-template-columns: repeat(auto-fill, minmax(118px, 1fr)); gap: 8px; }
+.tile { border: 1px solid var(--vscode-panel-border, rgba(128,128,128,.3)); border-radius: 4px; padding: 7px 10px; background: var(--vscode-editorWidget-background, transparent); }
+.tile b { display: block; font-size: 19px; font-weight: 600; font-variant-numeric: tabular-nums; }
+.tile span { font-size: 11px; color: var(--vscode-descriptionForeground); }
+.charts { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 10px; margin-top: 12px; }
+.chart { border: 1px solid var(--vscode-panel-border, rgba(128,128,128,.3)); border-radius: 4px; padding: 8px 8px 4px; }
+.chart canvas { width: 100%; height: 170px; display: block; }
+.key { font-weight: 400; color: var(--vscode-descriptionForeground); font-size: 11px; }
+.key i { display: inline-block; width: 10px; height: 3px; border-radius: 2px; margin: 0 3px 0 8px; vertical-align: 3px; }
+.key .k1 { background: var(--vscode-charts-blue); } .key .k2 { background: var(--vscode-charts-purple); } .key .k3 { background: var(--vscode-charts-orange); }
+.key .k4 { background: var(--vscode-charts-green); } .key .k5 { background: var(--vscode-charts-red); }
+.tables { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 0 24px; }
+table { width: 100%; border-collapse: collapse; font-size: 12px; font-variant-numeric: tabular-nums; }
+th, td { text-align: left; padding: 4px 8px; border-bottom: 1px solid var(--vscode-panel-border, rgba(128,128,128,.2)); }
+th { color: var(--vscode-descriptionForeground); font-weight: 600; }
+td.n, th.n { text-align: right; }
+.ok { color: var(--vscode-testing-iconPassed, var(--vscode-charts-green)); }
+.bad { color: var(--vscode-testing-iconFailed, var(--vscode-charts-red)); }
+.code { font-family: var(--vscode-editor-font-family); }
+.code.c4, .code.c5 { color: var(--vscode-charts-red); }
+.code.c2 { color: var(--vscode-charts-green); }
+.none { color: var(--vscode-descriptionForeground); font-size: 12px; margin: 4px 0; }
+code { font-family: var(--vscode-editor-font-family); font-size: 12px; }
+.saved { color: var(--vscode-descriptionForeground); font-size: 11px; margin-top: 16px; word-break: break-all; }
+.zovo-support { margin-top: 18px; }

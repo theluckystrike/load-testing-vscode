@@ -1,0 +1,476 @@
+{
+ "$schema": "http://json-schema.org/draft-07/schema#",
+ "title": "Load test (Zovo Load Testing)",
+ "type": "object",
+ "additionalProperties": false,
+ "properties": {
+  "$schema": {
+   "type": "string"
+  },
+  "name": {
+   "type": "string",
+   "description": "Name shown in the dashboard and the report."
+  },
+  "description": {
+   "type": "string"
+  },
+  "target": {
+   "type": "string",
+   "description": "Base URL, for example http://localhost:3000. Only the hosts in the test receive requests."
+  },
+  "request": {
+   "oneOf": [
+    {
+     "type": "string",
+     "description": "\"GET /path\" or a URL"
+    },
+    {
+     "type": "object",
+     "properties": {
+      "method": {
+       "enum": [
+        "GET",
+        "POST",
+        "PUT",
+        "PATCH",
+        "DELETE",
+        "HEAD",
+        "OPTIONS"
+       ],
+       "default": "GET"
+      },
+      "url": {
+       "type": "string",
+       "description": "Full URL, or a path when target is set. {{name}} placeholders work."
+      },
+      "headers": {
+       "type": "object",
+       "additionalProperties": {
+        "type": [
+         "string",
+         "number",
+         "boolean"
+        ]
+       },
+       "description": "Request headers, name: value."
+      },
+      "body": {
+       "description": "Request body. A map is sent as JSON."
+      },
+      "json": {
+       "description": "Body sent as JSON with content-type application/json."
+      },
+      "form": {
+       "type": "object",
+       "description": "Body sent as application/x-www-form-urlencoded."
+      },
+      "query": {
+       "type": "object",
+       "description": "Query string parameters."
+      }
+     },
+     "required": [
+      "url"
+     ],
+     "additionalProperties": false
+    }
+   ]
+  },
+  "steps": {
+   "type": "array",
+   "items": {
+    "type": "object",
+    "properties": {
+     "name": {
+      "type": "string"
+     },
+     "request": {
+      "oneOf": [
+       {
+        "type": "string",
+        "description": "\"GET /path\" or a URL"
+       },
+       {
+        "type": "object",
+        "properties": {
+         "method": {
+          "enum": [
+           "GET",
+           "POST",
+           "PUT",
+           "PATCH",
+           "DELETE",
+           "HEAD",
+           "OPTIONS"
+          ],
+          "default": "GET"
+         },
+         "url": {
+          "type": "string",
+          "description": "Full URL, or a path when target is set. {{name}} placeholders work."
+         },
+         "headers": {
+          "type": "object",
+          "additionalProperties": {
+           "type": [
+            "string",
+            "number",
+            "boolean"
+           ]
+          },
+          "description": "Request headers, name: value."
+         },
+         "body": {
+          "description": "Request body. A map is sent as JSON."
+         },
+         "json": {
+          "description": "Body sent as JSON with content-type application/json."
+         },
+         "form": {
+          "type": "object",
+          "description": "Body sent as application/x-www-form-urlencoded."
+         },
+         "query": {
+          "type": "object",
+          "description": "Query string parameters."
+         }
+        },
+        "required": [
+         "url"
+        ],
+        "additionalProperties": false
+       }
+      ]
+     },
+     "checks": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+       "status": {
+        "description": "Expected status: 200, [200, 201] or 2xx.",
+        "oneOf": [
+         {
+          "type": [
+           "integer",
+           "string"
+          ]
+         },
+         {
+          "type": "array",
+          "items": {
+           "type": [
+            "integer",
+            "string"
+           ]
+          }
+         }
+        ]
+       },
+       "maxLatency": {
+        "oneOf": [
+         {
+          "type": "string",
+          "pattern": "^\\s*(\\d+(\\.\\d+)?\\s*(ms|s|m|h)\\s*)+$"
+         },
+         {
+          "type": "number",
+          "minimum": 0
+         }
+        ],
+        "description": "A time such as 30s, 2m, 1m30s or 500ms."
+       },
+       "bodyContains": {
+        "type": "string"
+       },
+       "bodyNotContains": {
+        "type": "string"
+       },
+       "jsonPath": {
+        "type": "object",
+        "description": "JSONPath: expected value, or {exists: true}."
+       },
+       "header": {
+        "type": "object",
+        "description": "Header name: text it must contain."
+       }
+      }
+     },
+     "extract": {
+      "type": "object",
+      "additionalProperties": {
+       "type": "string"
+      },
+      "description": "Variable name: JSONPath in the response, for example token: $.token"
+     },
+     "thinkTime": {
+      "description": "Pause after this step."
+     },
+     "method": {
+      "enum": [
+       "GET",
+       "POST",
+       "PUT",
+       "PATCH",
+       "DELETE",
+       "HEAD",
+       "OPTIONS"
+      ],
+      "default": "GET"
+     },
+     "url": {
+      "type": "string"
+     },
+     "headers": {
+      "type": "object",
+      "additionalProperties": {
+       "type": [
+        "string",
+        "number",
+        "boolean"
+       ]
+      },
+      "description": "Request headers, name: value."
+     },
+     "body": {},
+     "json": {},
+     "form": {
+      "type": "object"
+     },
+     "query": {
+      "type": "object"
+     }
+    },
+    "additionalProperties": false
+   },
+   "minItems": 1,
+   "description": "Several requests in a row (one iteration)."
+  },
+  "phases": {
+   "type": "array",
+   "minItems": 1,
+   "items": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+     "duration"
+    ],
+    "properties": {
+     "name": {
+      "type": "string"
+     },
+     "duration": {
+      "oneOf": [
+       {
+        "type": "string",
+        "pattern": "^\\s*(\\d+(\\.\\d+)?\\s*(ms|s|m|h)\\s*)+$"
+       },
+       {
+        "type": "number",
+        "minimum": 0
+       }
+      ],
+      "description": "A time such as 30s, 2m, 1m30s or 500ms."
+     },
+     "vus": {
+      "oneOf": [
+       {
+        "type": "number",
+        "minimum": 0
+       },
+       {
+        "type": "array",
+        "items": {
+         "type": "number",
+         "minimum": 0
+        },
+        "minItems": 2,
+        "maxItems": 2
+       }
+      ],
+      "description": "Virtual users: a number, or [from, to] for a linear ramp."
+     },
+     "rate": {
+      "oneOf": [
+       {
+        "type": "number",
+        "minimum": 0
+       },
+       {
+        "type": "array",
+        "items": {
+         "type": "number",
+         "minimum": 0
+        },
+        "minItems": 2,
+        "maxItems": 2
+       }
+      ],
+      "description": "Requests per second (open model): a number, or [from, to] for a linear ramp."
+     }
+    }
+   }
+  },
+  "vus": {
+   "oneOf": [
+    {
+     "type": "number",
+     "minimum": 0
+    },
+    {
+     "type": "array",
+     "items": {
+      "type": "number",
+      "minimum": 0
+     },
+     "minItems": 2,
+     "maxItems": 2
+    }
+   ],
+   "description": "Virtual users: a number, or [from, to] for a linear ramp."
+  },
+  "rate": {
+   "oneOf": [
+    {
+     "type": "number",
+     "minimum": 0
+    },
+    {
+     "type": "array",
+     "items": {
+      "type": "number",
+      "minimum": 0
+     },
+     "minItems": 2,
+     "maxItems": 2
+    }
+   ],
+   "description": "Requests per second: a number, or [from, to] for a linear ramp."
+  },
+  "duration": {
+   "oneOf": [
+    {
+     "type": "string",
+     "pattern": "^\\s*(\\d+(\\.\\d+)?\\s*(ms|s|m|h)\\s*)+$"
+    },
+    {
+     "type": "number",
+     "minimum": 0
+    }
+   ],
+   "description": "A time such as 30s, 2m, 1m30s or 500ms."
+  },
+  "model": {
+   "enum": [
+    "closed",
+    "open"
+   ]
+  },
+  "thinkTime": {
+   "description": "Pause after each iteration: 100ms, or [50ms, 200ms] for a random pause."
+  },
+  "timeout": {
+   "oneOf": [
+    {
+     "type": "string",
+     "pattern": "^\\s*(\\d+(\\.\\d+)?\\s*(ms|s|m|h)\\s*)+$"
+    },
+    {
+     "type": "number",
+     "minimum": 0
+    }
+   ],
+   "description": "A time such as 30s, 2m, 1m30s or 500ms."
+  },
+  "checks": {
+   "type": "object",
+   "additionalProperties": false,
+   "properties": {
+    "status": {
+     "description": "Expected status: 200, [200, 201] or 2xx.",
+     "oneOf": [
+      {
+       "type": [
+        "integer",
+        "string"
+       ]
+      },
+      {
+       "type": "array",
+       "items": {
+        "type": [
+         "integer",
+         "string"
+        ]
+       }
+      }
+     ]
+    },
+    "maxLatency": {
+     "oneOf": [
+      {
+       "type": "string",
+       "pattern": "^\\s*(\\d+(\\.\\d+)?\\s*(ms|s|m|h)\\s*)+$"
+      },
+      {
+       "type": "number",
+       "minimum": 0
+      }
+     ],
+     "description": "A time such as 30s, 2m, 1m30s or 500ms."
+    },
+    "bodyContains": {
+     "type": "string"
+    },
+    "bodyNotContains": {
+     "type": "string"
+    },
+    "jsonPath": {
+     "type": "object",
+     "description": "JSONPath: expected value, or {exists: true}."
+    },
+    "header": {
+     "type": "object",
+     "description": "Header name: text it must contain."
+    }
+   }
+  },
+  "thresholds": {
+   "type": "array",
+   "items": {
+    "type": "string",
+    "pattern": "^\\s*[A-Za-z0-9_%-]+\\s*(<=|>=|==|=|<|>)\\s*[0-9.]+\\s*(ms|s|%|/s)?\\s*$"
+   },
+   "description": "Pass/fail rules: p50, p90, p95, p99, max, avg, errors, checks, rps, requests. Example: p95 < 300ms."
+  },
+  "insecure": {
+   "type": "boolean",
+   "description": "Allow invalid or self-signed TLS certificates. Off by default."
+  },
+  "variables": {
+   "type": "object",
+   "description": "Values for {{name}} placeholders."
+  },
+  "data": {
+   "type": "string",
+   "pattern": "\\.(csv|tsv)$",
+   "description": "CSV file (relative to this file). Each iteration uses the next row: {{column}}."
+  },
+  "dataOrder": {
+   "enum": [
+    "sequential",
+    "random"
+   ]
+  },
+  "maxVus": {
+   "type": "integer",
+   "minimum": 1,
+   "description": "Open model: most requests in flight at once."
+  },
+  "maxBodyKB": {
+   "type": "number",
+   "minimum": 0,
+   "maximum": 65536,
+   "description": "How much of each response is kept for checks (default 1024 KB). The rest is read and counted."
+  }
+ }
+}

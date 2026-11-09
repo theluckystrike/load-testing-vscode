@@ -1,0 +1,14 @@
+**
+!dist/extension.js
+!dist/worker.js
+!media/**
+!schemas/**
+!images/dashboard-dark.png
+!walkthrough/**
+!samples/**
+!package.json
+!README.md
+!CHANGELOG.md
+!LICENSE
+!THIRD-PARTY-NOTICES.md
+!icon.png

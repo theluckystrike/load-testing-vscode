@@ -1,0 +1,14 @@
+# Login, then read the profile with the token from the login response.
+@host = 127.0.0.1:3000
+
+# @name login
+POST http://{{host}}/api/login
+Content-Type: application/json
+
+{"user": "ada"}
+
+###
+
+# @name me
+GET http://{{host}}/api/me
+Authorization: Bearer {{login.response.body.$.token}}
